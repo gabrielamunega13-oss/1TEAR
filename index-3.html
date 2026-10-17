@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>1TEAR: Offer a tear. Leave a dream.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#bcdcef; --bg-deep:#a9cfe6; --panel:#e3f1fa; --line:#8fb8d4;
+  --text:#12263a; --muted:#3b5b76; --red:#c1272d; --red-soft:#7d1b21; --water:#2a9bd8; --water-deep:#1673ad;
+  --paper:#fdfbf4; --paper-2:#f1ece0; --ink:#1a1717;
+  --body:"Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --hand:"Caveat", "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:2px solid var(--water-deep);outline-offset:3px}
+
+.notice{background:var(--bg-deep);border-bottom:1px solid var(--line);color:var(--muted);font-size:13px;padding:10px 20px}
+.notice strong{color:var(--text);font-weight:600}
+
+.hero{padding:48px 0 20px}
+.brand{font-weight:700;font-size:20px;letter-spacing:.02em;margin:0 0 28px}
+.brand i{font-style:normal;color:var(--water-deep)}
+h1{font-weight:700;font-size:clamp(38px,9vw,70px);line-height:1;letter-spacing:-.03em;margin:0 0 18px;max-width:13ch}
+.tag{color:var(--muted);font-size:19px;margin:0}
+.stage{position:relative;height:150px;margin:26px 0 0;overflow:hidden}
+.surface{position:absolute;left:0;right:0;bottom:26px;height:1px;background:var(--line)}
+.drop{position:absolute;left:50%;top:-20px;width:14px;height:14px;margin-left:-7px;background:var(--water);border-radius:0 50% 50% 50%;transform:rotate(45deg);animation:fall 8s cubic-bezier(.55,0,.9,.4) infinite}
+.ring{position:absolute;left:50%;bottom:26px;width:12px;height:4px;margin:0 0 -2px -6px;border:1px solid var(--water);border-radius:50%;opacity:0;animation:ripple 8s ease-out infinite}
+.ring.two{animation-delay:.35s}
+@keyframes fall{0%{top:-20px;opacity:0}6%{opacity:1}34%{top:104px;opacity:1}36%{top:108px;opacity:0}100%{top:108px;opacity:0}}
+@keyframes ripple{0%,34%{opacity:0;transform:scale(1)}36%{opacity:.9;transform:scale(1)}62%{opacity:0;transform:scale(18)}100%{opacity:0;transform:scale(18)}}
+
+.ca{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0 0;font-size:14px}
+.ca code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:8px 12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;overflow-wrap:anywhere}
+.ca button{min-height:38px;padding:7px 14px;font-size:14px}
+.ca a{color:var(--water-deep)}
+.agree{display:flex;gap:10px;align-items:flex-start;margin-top:18px;font-size:14px;line-height:1.4}
+.agree input{width:22px;height:22px;margin-top:1px;flex:none}
+.statebox[data-state=failed]{border-left-color:var(--red)}
+.statebox[data-state=success]{border-left-color:#1b7f3b}
+.statebox a{color:var(--water-deep);overflow-wrap:anywhere}
+.empty{color:var(--muted);font-size:15px;margin:0}
+details{margin-top:18px;font-size:14px}
+summary{cursor:pointer;color:var(--muted)}
+.retry{margin-top:14px;padding:12px 14px;border:1px solid var(--water-deep);border-radius:4px;background:#fff;font-size:14px}
+.retry q{display:block;font-family:var(--hand);font-size:22px;margin:4px 0 8px;quotes:none}
+.note .when{font-size:11px;color:#6b645d;margin:2px 0 0}
+.note .when a{color:#5b1418}
+section{padding:42px 0;border-top:1px solid var(--line)}
+h2{font-weight:700;font-size:clamp(26px,6vw,36px);line-height:1.1;letter-spacing:-.02em;margin:0 0 18px}
+p{margin:0 0 14px}
+.muted{color:var(--muted)}
+
+label{display:block;font-size:14px;color:var(--muted);margin:0 0 8px}
+textarea,input[type=number],input[type=text]{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:4px;color:var(--text);font:inherit;padding:14px 16px}
+textarea{min-height:130px;resize:vertical;font-family:var(--hand);font-size:26px;line-height:1.2}
+textarea::placeholder,input::placeholder{color:#6b8398}
+.count{font-size:13px;color:var(--muted);text-align:right;margin-top:6px}
+.row{display:flex;gap:16px;flex-wrap:wrap;margin-top:18px}
+.row>div{flex:1 1 180px}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+button{font:inherit;cursor:pointer;border-radius:4px;padding:13px 22px;border:1px solid var(--line);background:transparent;color:var(--text);min-height:46px}
+button.primary{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.ghost:hover:not(:disabled){border-color:var(--water-deep)}
+.hint{font-size:13px;color:var(--muted);margin-top:14px}
+
+.states{margin-top:30px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{padding:8px 14px;min-height:40px;font-size:14px}
+.chip[aria-pressed=true]{border-color:var(--water-deep);color:#fff;background:var(--water-deep)}
+.statebox{min-height:52px;border-left:2px solid var(--water-deep);padding:6px 0 6px 14px;font-size:17px}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.stat b{display:block;font-weight:700;font-size:clamp(34px,9vw,52px);line-height:1;letter-spacing:-.03em;color:var(--muted)}
+.stat span{display:block;margin-top:8px;font-size:14px}
+@media (max-width:420px){.stats{grid-template-columns:1fr}}
+
+/* Dream Board: sticky notes */
+.board{background:var(--bg-deep);border:1px solid var(--line);border-radius:6px;padding:26px 16px 18px}
+.notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:26px 20px}
+.note{position:relative;background:var(--paper);color:var(--ink);padding:26px 16px 14px;min-height:170px;border-radius:2px;box-shadow:0 6px 14px rgba(18,38,58,.3);display:flex;flex-direction:column;justify-content:space-between}
+.note:nth-child(4n+1){transform:rotate(-2deg)}
+.note:nth-child(4n+2){transform:rotate(1.5deg);background:var(--paper-2)}
+.note:nth-child(4n+3){transform:rotate(-1deg)}
+.note:nth-child(4n){transform:rotate(2deg);background:var(--paper-2)}
+.note::before{content:"";position:absolute;top:8px;left:50%;width:12px;height:12px;margin-left:-6px;background:var(--red);border-radius:50%;box-shadow:0 2px 3px rgba(0,0,0,.4)}
+.note .txt{font-family:var(--hand);font-weight:700;font-size:25px;line-height:1.1;margin:0 0 12px;overflow-wrap:anywhere}
+.note .addr{font-size:12px;font-weight:600;color:#5b1418;margin:0;overflow-wrap:anywhere}
+.note .sub{font-size:11px;color:#6b645d;margin:2px 0 0}
+.sample{position:absolute;top:6px;right:8px;font-size:10px;color:#6b645d}
+
+.pick{margin:0 0 26px}
+.pick .note{max-width:360px;min-height:200px;transform:rotate(-1.5deg)}
+.pick .note .txt{font-size:32px}
+.pick.show .note{animation:pop .7s ease both}
+@keyframes pop{from{opacity:0;transform:rotate(-6deg) scale(.92)}to{opacity:1;transform:rotate(-1.5deg) scale(1)}}
+
+.how p{max-width:62ch}
+footer{padding:30px 0 60px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+
+@media (prefers-reduced-motion:reduce){
+  .drop,.ring{animation:none}
+  .drop{top:108px;opacity:.9}
+  .pick.show .note{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="notice"><strong>Early version.</strong> Offering sends real 1TEAR to the Vault and cannot be undone. Dreams pinned to the board are public.</div>
+
+<main class="wrap">
+  <header class="hero">
+    <p class="brand">1<i>TEAR</i></p>
+    <h1>One tear. One dream. One note.</h1>
+    <p class="tag">Offer a tear. Leave a dream.</p>
+    <div class="ca"><span class="muted">Token contract</span><code id="ca">1tear.launch-v2.intear.near</code><button class="ghost" id="copyca" type="button">Copy</button><a href="https://nearblocks.io/token/1tear.launch-v2.intear.near" target="_blank" rel="noopener">View on NearBlocks</a></div>
+    <div class="ca"><span class="muted">The Vault</span><code>1tearvault.oxkraven.tg</code><a href="https://nearblocks.io/address/1tearvault.oxkraven.tg" target="_blank" rel="noopener">Verify on NearBlocks</a></div>
+    <div class="stage" aria-hidden="true">
+      <div class="drop"></div><div class="surface"></div>
+      <div class="ring"></div><div class="ring two"></div>
+    </div>
+  </header>
+
+  <section id="offer">
+    <h2>Drop a tear, pin a dream</h2>
+    <label for="dream">1TEAR to a dollar, a bag you'll never sell, a goal for the next cycle</label>
+    <textarea id="dream" maxlength="140" placeholder="Write it on your note..."></textarea>
+    <div class="count" id="count">0 / 140</div>
+    <div class="row">
+      <div>
+        <label for="amount">Tears to offer</label>
+        <input id="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="1">
+      </div>
+    </div>
+    <label class="agree"><input type="checkbox" id="agree"><span id="agreetext">I understand that the tears I offer, once sent to the Vault, can never be recovered.</span></label>
+    <div class="btns">
+      <button class="ghost" id="connect" type="button">Connect wallet</button>
+      <button class="primary" id="offerbtn" type="button" disabled>Offer a Tear</button>
+    </div>
+    <p class="hint" id="walletstatus" aria-live="polite">Not connected. Connecting only shows your account name. An offering sends real 1TEAR to the Vault, and only after you approve it in your wallet.</p>
+
+    <div class="retry" id="retrybox" hidden>
+      <b>An offering is waiting to be pinned.</b>
+      <q id="retrytext"></q>
+      <button class="ghost" id="retrybtn" type="button">Pin it to the board</button>
+    </div>
+    <details>
+      <summary>Wallet did not return a transaction id?</summary>
+      <p class="hint">Paste the transaction id here, then tap the button. Use the exact same dream text, amount and wallet as the offering. Only offerings made on this site can be pinned.</p>
+      <input id="manualhash" type="text" autocomplete="off" spellcheck="false" placeholder="Transaction id">
+      <div class="btns"><button class="ghost" id="manualbtn" type="button">Pin this offering</button></div>
+    </details>
+
+    <div class="states">
+      <label>Offering status</label>
+      <div class="statebox" id="statebox" data-state="idle" aria-live="polite">Nothing sent yet.</div>
+    </div>
+  </section>
+
+  <section id="numbers">
+    <h2>By the numbers</h2>
+    <div class="stats">
+      <div class="stat"><b id="stat-tears">&mdash;</b><span>Tears Offered</span></div>
+      <div class="stat"><b id="stat-dreams">&mdash;</b><span>Dreams Shared</span></div>
+      <div class="stat"><b id="stat-dreamers">&mdash;</b><span>Dreamers</span></div>
+    </div>
+    <p class="hint" id="statnote" style="margin-top:16px">Counted only from offerings verified on NEAR.</p>
+  </section>
+
+  <section id="wall">
+    <h2>The Dream Board</h2>
+    <div class="btns" style="margin:0 0 22px"><button class="ghost" id="random" type="button">Show Me a Dream</button></div>
+    <div class="pick" id="pick" aria-live="polite"></div>
+    <div class="board"><p class="empty" id="boardnote">Loading the board...</p><div class="notes" id="notes"></div></div>
+  </section>
+
+  <section class="how" id="how">
+    <h2>How it works</h2>
+    <p>Tears are 1TEAR tokens. You offer them by sending them to the Vault, an account with no keys, so nobody can ever move them again.</p>
+    <p>This is not a burn: the token's total supply stays the same, but the tokens you offered are out of circulation for good. The transfer is public on NEAR. Your note is stored in this site's database, not on the blockchain, but it is tied to your transfer: the transfer carries a fingerprint (hash) of your note, and a note is pinned only after the server has checked the transfer on NEAR.</p>
+    <p>The Vault is <code>1tearvault.oxkraven.tg</code>. Anyone can check it on <a href="https://nearblocks.io/address/1tearvault.oxkraven.tg" target="_blank" rel="noopener">NearBlocks</a>: it has no access keys and no contract code, so no one can move what is sent to it.</p>
+  </section>
+
+  <footer>1TEAR is a community project. Early version.</footer>
+</main>
+
+<script type="module">
+// 1TEAR: offering flow + Dream Board. Real transfers happen only after wallet approval.
+const SUPABASE_URL = "https://tgbscicmfoizgyqisnya.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRnYnNjaWNtZm9pemd5cWlzbnlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIyNjI1NzMsImV4cCI6MjEwNzgzODU3M30.nRqpum83H9Tr8FDz5InvBKjwpQuz7vj5ujFVNS0Ph6A"; // public anon key only
+
+const TOKEN = "1tear.launch-v2.intear.near";
+const VAULT = "1tearvault.oxkraven.tg";
+const DECIMALS = 24;
+const RPCS = ["https://free.rpc.fastnear.com", "https://rpc.mainnet.near.org"];
+const FN_URL = SUPABASE_URL + "/functions/v1/publish-dream";
+const HAVE_DB = !!(SUPABASE_URL && SUPABASE_KEY);
+const PENDING_KEY = "1tear_pending_dreams";
+
+const $ = (id) => document.getElementById(id);
+const btn = $("connect"), statusEl = $("walletstatus"), offerBtn = $("offerbtn");
+const amountEl = $("amount"), agree = $("agree"), agreeText = $("agreetext");
+const dreamEl = $("dream"), stateBox = $("statebox"), cnt = $("count");
+const IDLE = statusEl.textContent;
+let connector = null, account = null, balanceRaw = null, busy = false, rows = [];
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const isHash = (v) => typeof v === "string" && /^[1-9A-HJ-NP-Za-km-z]{43,44}$/.test(v);
+
+/* ---------- NEAR helpers ---------- */
+async function rpcCall(method, params) {
+  let last;
+  for (const url of RPCS) {
+    try {
+      const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jsonrpc: "2.0", id: "1", method, params }) });
+      const j = await r.json();
+      if (j.error) throw new Error(JSON.stringify(j.error));
+      return j.result;
+    } catch (e) { last = e; }
+  }
+  throw last;
+}
+async function view(account_id, method_name, args = {}) {
+  const r = await rpcCall("query", { request_type: "call_function", finality: "final", account_id, method_name,
+    args_base64: btoa(JSON.stringify(args)) });
+  return JSON.parse(new TextDecoder().decode(new Uint8Array(r.result)));
+}
+function parseAmount(text) {
+  const t = text.trim();
+  if (!/^\d+(\.\d+)?$/.test(t)) return null;
+  const parts = t.split(".");
+  const frac = parts[1] || "";
+  if (frac.length > DECIMALS) return null;
+  const raw = BigInt(parts[0] + frac.padEnd(DECIMALS, "0"));
+  return raw > 0n ? raw : null;
+}
+function fmt(raw) {
+  const base = 10n ** BigInt(DECIMALS);
+  const whole = raw / base;
+  const frac = (raw % base).toString().padStart(DECIMALS, "0").slice(0, 4).replace(/0+$/, "");
+  return whole.toString() + (frac ? "." + frac : "");
+}
+function cleanDream(t) {
+  return String(t).replace(/[\u0000-\u001F\u007F]+/g, " ").replace(/\s+/g, " ").trim().slice(0, 140);
+}
+async function sha256Hex(text) {
+  const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(d)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+function findHash(res) {
+  const items = Array.isArray(res) ? res : [res];
+  for (const r of items) {
+    if (!r) continue;
+    const c = [r, r.hash, r.txHash, r.transactionHash, r.transaction && r.transaction.hash,
+      r.transaction_outcome && r.transaction_outcome.id, r.final_outcome && r.final_outcome.transaction && r.final_outcome.transaction.hash];
+    for (const v of c) if (isHash(v)) return v;
+  }
+  return null;
+}
+
+/* ---------- UI helpers ---------- */
+function setState(kind, text, href, linkText) {
+  stateBox.setAttribute("data-state", kind);
+  stateBox.textContent = text;
+  if (href) {
+    stateBox.appendChild(document.createTextNode(" "));
+    const a = document.createElement("a");
+    a.href = href; a.target = "_blank"; a.rel = "noopener"; a.textContent = linkText || "View transaction";
+    stateBox.appendChild(a);
+  }
+}
+function render() {
+  btn.textContent = account ? "Disconnect" : "Connect wallet";
+  statusEl.textContent = account
+    ? "Connected as " + account + "." + (balanceRaw !== null ? " Your balance: " + fmt(balanceRaw) + " tears." : "")
+    : IDLE;
+  refreshUI(); renderRetry();
+}
+function refreshUI() {
+  const amt = parseAmount(amountEl.value);
+  agreeText.textContent = "I understand that " + (amt ? fmt(amt) + " tears" : "the tears I offer") +
+    ", once sent to the Vault, can never be recovered.";
+  offerBtn.disabled = busy || !account || !agree.checked || !HAVE_DB;
+}
+amountEl.addEventListener("input", refreshUI);
+agree.addEventListener("change", refreshUI);
+dreamEl.addEventListener("input", () => { cnt.textContent = dreamEl.value.length + " / 140"; });
+
+// contract address copy button
+(function () {
+  const copyBtn = $("copyca"), caEl = $("ca");
+  function selectCa() {
+    const r = document.createRange(); r.selectNodeContents(caEl);
+    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    copyBtn.textContent = "Selected, tap copy";
+  }
+  copyBtn.addEventListener("click", () => {
+    try {
+      navigator.clipboard.writeText(caEl.textContent).then(() => {
+        copyBtn.textContent = "Copied";
+        setTimeout(() => { copyBtn.textContent = "Copy"; }, 1800);
+      }, selectCa);
+    } catch (e) { selectCa(); }
+  });
+})();
+
+/* ---------- Database (read) ---------- */
+function dbHeaders(extra) {
+  const h = Object.assign({ apikey: SUPABASE_KEY }, extra || {});
+  if (SUPABASE_KEY.startsWith("eyJ")) h.Authorization = "Bearer " + SUPABASE_KEY;
+  return h;
+}
+async function dbGet(path) {
+  const r = await fetch(SUPABASE_URL + "/rest/v1/" + path, { headers: dbHeaders() });
+  if (!r.ok) throw new Error("HTTP " + r.status);
+  return r.json();
+}
+function makeNote(d) {
+  const n = document.createElement("div"); n.className = "note";
+  const t = document.createElement("p"); t.className = "txt"; t.textContent = d.message;
+  const f = document.createElement("div");
+  const a = document.createElement("p"); a.className = "addr"; a.textContent = d.account;
+  const m = document.createElement("p"); m.className = "sub";
+  let amt = "";
+  try { amt = fmt(BigInt(d.amount_raw)) + " tears"; } catch (e) { amt = ""; }
+  m.textContent = amt;
+  const w = document.createElement("p"); w.className = "when";
+  const when = new Date(d.tx_time);
+  w.textContent = (isNaN(when) ? "" : when.toLocaleString([], { dateStyle: "medium", timeStyle: "short" }) + " | ");
+  if (isHash(d.tx_hash)) {
+    const l = document.createElement("a");
+    l.href = "https://nearblocks.io/txns/" + d.tx_hash; l.target = "_blank"; l.rel = "noopener"; l.textContent = "transaction";
+    w.appendChild(l);
+  }
+  f.appendChild(a); f.appendChild(m); f.appendChild(w);
+  n.appendChild(t); n.appendChild(f);
+  return n;
+}
+async function loadBoard() {
+  const note = $("boardnote"), notes = $("notes");
+  if (!HAVE_DB) { note.textContent = "The Dream Board is not connected yet."; $("statnote").textContent = "Numbers appear once the board is connected."; return; }
+  try {
+    rows = await dbGet("dreams?select=tx_hash,account,message,amount_raw,tx_time&hidden=eq.false&order=tx_time.desc&limit=60");
+    notes.textContent = "";
+    rows.forEach((d) => notes.appendChild(makeNote(d)));
+    note.textContent = rows.length ? "" : "No dreams yet. Be the first to pin one.";
+    const st = (await dbGet("dream_stats?select=*"))[0];
+    if (st) {
+      $("stat-tears").textContent = fmt(BigInt(st.total_raw));
+      $("stat-dreams").textContent = String(st.dreams);
+      $("stat-dreamers").textContent = String(st.dreamers);
+    }
+  } catch (e) {
+    note.textContent = "Could not load the board right now. Try again in a moment.";
+  }
+}
+let lastPick = -1;
+$("random").addEventListener("click", () => {
+  const pick = $("pick");
+  if (!rows.length) { pick.textContent = ""; const p = document.createElement("p"); p.className = "empty"; p.textContent = "No dreams to show yet."; pick.appendChild(p); return; }
+  let i; do { i = Math.floor(Math.random() * rows.length); } while (i === lastPick && rows.length > 1);
+  lastPick = i;
+  pick.textContent = ""; pick.appendChild(makeNote(rows[i]));
+  pick.classList.remove("show"); void pick.offsetWidth; pick.classList.add("show");
+});
+
+/* ---------- Database (publish via the verifying server) ---------- */
+async function publish(hash, acct, text) {
+  for (let i = 0; i < 4; i++) {
+    let r, j = {};
+    try {
+      r = await fetch(FN_URL, { method: "POST", headers: dbHeaders({ "Content-Type": "application/json" }),
+        body: JSON.stringify({ tx_hash: hash, account: acct, message: text }) });
+      try { j = await r.json(); } catch (e) { /* no body */ }
+    } catch (e) { return { ok: false, error: "Could not reach the server." }; }
+    if (r.ok && j.ok) return { ok: true };
+    if (r.status === 202 || j.retry) { await sleep(3000); continue; }
+    return { ok: false, error: j.error || ("Publishing failed (" + r.status + ").") };
+  }
+  return { ok: false, retry: true, error: "NEAR has not finalized the transaction yet." };
+}
+function readPending() { try { return JSON.parse(localStorage.getItem(PENDING_KEY) || "[]"); } catch (e) { return []; } }
+function writePending(arr) { try { localStorage.setItem(PENDING_KEY, JSON.stringify(arr)); } catch (e) { /* storage unavailable */ } }
+function savePending(entry) { const a = readPending().filter((x) => x.hash !== entry.hash); a.push(entry); writePending(a); }
+function markPublished(hash) { writePending(readPending().filter((x) => x.hash !== hash)); }
+function renderRetry() {
+  const p = readPending().filter((x) => account && x.account === account)[0];
+  $("retrybox").hidden = !p;
+  if (p) $("retrytext").textContent = p.text;
+}
+async function publishAndReport(hash, acct, text, raw) {
+  setState("pending", "Confirming on NEAR and pinning your dream...", "https://nearblocks.io/txns/" + hash, "View transaction");
+  const res = await publish(hash, acct, text);
+  const link = "https://nearblocks.io/txns/" + hash;
+  if (res.ok) {
+    markPublished(hash);
+    setState("success", "Tear offered" + (raw ? ": " + fmt(raw) + " 1TEAR reached the Vault" : "") + ". Verified on NEAR. Your dream is pinned to the board.", link, "View transaction");
+    await loadBoard(); renderRetry();
+  } else {
+    setState("failed", (res.error || "Could not pin your dream.") + " Your offering is safe on NEAR. Your dream is saved in this browser: tap Pin it to the board to try again.", link, "View transaction");
+    renderRetry();
+  }
+}
+$("retrybtn").addEventListener("click", async () => {
+  const p = readPending().filter((x) => account && x.account === account)[0];
+  if (!p || busy) return;
+  busy = true; refreshUI();
+  try { await publishAndReport(p.hash, p.account, p.text, p.amount ? BigInt(p.amount) : null); }
+  finally { busy = false; refreshUI(); }
+});
+$("manualbtn").addEventListener("click", async () => {
+  const hash = $("manualhash").value.trim(), text = cleanDream(dreamEl.value);
+  if (busy) return;
+  if (!account) { setState("failed", "Connect the wallet that made the offering first."); return; }
+  if (!isHash(hash)) { setState("failed", "That does not look like a transaction id."); return; }
+  if (!text) { setState("failed", "Type the exact dream text you used, in the dream box above."); return; }
+  busy = true; refreshUI();
+  try { savePending({ hash, account, text, ts: Date.now() }); await publishAndReport(hash, account, text, null); }
+  finally { busy = false; refreshUI(); }
+});
+
+/* ---------- Wallet ---------- */
+async function loadBalance() {
+  if (!account) return;
+  try { balanceRaw = BigInt(await view(TOKEN, "ft_balance_of", { account_id: account })); }
+  catch (e) { balanceRaw = null; }
+  render();
+}
+async function getConnector() {
+  if (connector) return connector;
+  const mod = await import("https://cdn.jsdelivr.net/npm/@hot-labs/near-connect/+esm");
+  connector = new mod.NearConnector({ network: "mainnet" });
+  connector.on("wallet:signIn", (t) => { account = t.accounts[0].accountId; render(); loadBalance(); });
+  connector.on("wallet:signOut", () => { account = null; balanceRaw = null; render(); });
+  return connector;
+}
+btn.addEventListener("click", async () => {
+  btn.disabled = true;
+  try {
+    const c = await getConnector();
+    if (account) { await c.disconnect(); account = null; balanceRaw = null; render(); }
+    else { await c.connect(); }
+  } catch (e) {
+    statusEl.textContent = "Wallet connection did not complete (" + (e && e.message ? e.message : "cancelled or blocked") + "). Nothing was sent.";
+  }
+  btn.disabled = false;
+});
+
+/* ---------- Offer a Tear ---------- */
+offerBtn.addEventListener("click", async () => {
+  if (busy || !account) return;
+  if (!HAVE_DB) { setState("failed", "The Dream Board is not connected yet, so offerings are switched off. Nothing was sent."); return; }
+  const dream = cleanDream(dreamEl.value);
+  if (!dream) { setState("failed", "Write your dream first. Nothing was sent."); return; }
+  const raw = parseAmount(amountEl.value);
+  if (raw === null) { setState("failed", "Enter an amount such as 1 or 2.5. Nothing was sent."); return; }
+  busy = true; refreshUI();
+  try {
+    setState("pending", "Checking your balance...");
+    balanceRaw = BigInt(await view(TOKEN, "ft_balance_of", { account_id: account })); render();
+    if (raw > balanceRaw) { setState("failed", "You hold " + fmt(balanceRaw) + " tears, so " + fmt(raw) + " is too much. Nothing was sent."); return; }
+    const reg = await view(TOKEN, "storage_balance_of", { account_id: VAULT });
+    if (reg === null) { setState("failed", "The Vault is not registered with 1TEAR, so the transfer would fail. Nothing was sent."); return; }
+
+    const memo = "1tear:" + (await sha256Hex(dream));
+    setState("pending", "Approve the offering in your wallet. It should show a 1TEAR transfer of " + fmt(raw) + " to " + VAULT + ".");
+    const wallet = await (await getConnector()).wallet();
+    let res;
+    try {
+      res = await wallet.signAndSendTransaction({
+        receiverId: TOKEN,
+        actions: [{ type: "FunctionCall", params: { methodName: "ft_transfer",
+          args: { receiver_id: VAULT, amount: raw.toString(), memo },
+          gas: "30000000000000", deposit: "1" } }],
+      });
+    } catch (e) {
+      const m = String((e && e.message) || e);
+      if (/reject|cancel|declin|denied|closed|abort/i.test(m)) setState("rejected", "Rejected in your wallet. Nothing was sent.");
+      else setState("failed", "The offering did not go through (" + m.slice(0, 160) + "). Check your wallet history before trying again.");
+      return;
+    }
+    const hash = findHash(res);
+    if (!hash) {
+      setState("unknown", "Your wallet reported the offering but did not return a transaction id, so it is not verified or pinned yet. Find the transaction id in your wallet history, then use the box below: Wallet did not return a transaction id.",
+        "https://nearblocks.io/address/" + VAULT, "Open the Vault on NearBlocks");
+      return;
+    }
+    savePending({ hash, account, text: dream, amount: raw.toString(), ts: Date.now() });
+    await publishAndReport(hash, account, dream, raw);
+    loadBalance();
+  } catch (e) {
+    setState("failed", "Something went wrong (" + String((e && e.message) || e).slice(0, 160) + "). Check your wallet history before trying again.");
+  } finally {
+    busy = false; refreshUI();
+  }
+});
+
+render();
+loadBoard();
+</script>
+</body>
+</html>
